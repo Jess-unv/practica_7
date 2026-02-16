@@ -1,0 +1,29 @@
+name: Test and Build
+
+# Este workflow se ejecutará cada vez que se realice un push a la rama "main"
+on:
+  push:
+    branches: ["main"]
+
+# Permisos para leer el contenido del repositorio
+permissions:
+  contents: read
+
+jobs:
+  test_and_build: # Nombre del trabajo
+    runs-on: ubuntu-latest # Se ejecutará en Ubuntu
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Test with pytest
+        working-directory: src
+        run: pytest tests.py
